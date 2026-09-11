@@ -8,7 +8,7 @@ function Lighthouse(x, y) {
   this.x = x;
   this.y = y;
   this.beamAngle = 0;
-  this.beamSpeed = 0.018;
+  this.beamSpeed = 0.02;
 }
 
 Lighthouse.prototype.update = function () {
