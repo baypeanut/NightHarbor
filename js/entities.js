@@ -70,7 +70,7 @@ HarborCrane.prototype.update = function () {
   if (this.boomAngle > 0.45 || this.boomAngle < -0.7) {
     this.boomDirection *= -1;
   }
-  this.hookSwing = Math.sin(Date.now() * 0.0035) * 0.35;
+  this.hookSwing = Math.sin(Date.now() * 0.003) * 0.35;
   this.cableLength = 70 + Math.sin(Date.now() * 0.0015) * 18;
 };
 
@@ -248,6 +248,58 @@ Tugboat.prototype.draw = function (ctx) {
   ctx.quadraticCurveTo(18 + Math.sin(this.flagPhase) * 6, 8, 28, 4 + Math.sin(this.flagPhase * 1.4) * 3);
   ctx.quadraticCurveTo(16, 16, 0, 12);
   ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+
+  ctx.restore();
+};
+
+function WindTurbine(x, y, scale) {
+  this.x = x;
+  this.y = y;
+  this.scale = scale || 1;
+  this.bladeAngle = Math.random() * Math.PI;
+  this.speed = 0.03 + Math.random() * 0.02;
+}
+
+WindTurbine.prototype.update = function () {
+  this.bladeAngle += this.speed;
+};
+
+WindTurbine.prototype.drawBlade = function (ctx) {
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.quadraticCurveTo(8, -18, 4, -58);
+  ctx.quadraticCurveTo(-2, -20, 0, 0);
+  ctx.fill();
+};
+
+WindTurbine.prototype.draw = function (ctx) {
+  ctx.save();
+  ctx.translate(this.x, this.y);
+  ctx.scale(this.scale, this.scale);
+
+  ctx.fillStyle = "#9aa7bd";
+  ctx.fillRect(-6, -110, 12, 110);
+  ctx.beginPath();
+  ctx.moveTo(-18, 0);
+  ctx.lineTo(18, 0);
+  ctx.lineTo(0, 14);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.save();
+  ctx.translate(0, -110);
+  ctx.rotate(this.bladeAngle);
+  ctx.fillStyle = "#e8eef8";
+  this.drawBlade(ctx);
+  ctx.rotate((Math.PI * 2) / 3);
+  this.drawBlade(ctx);
+  ctx.rotate((Math.PI * 2) / 3);
+  this.drawBlade(ctx);
+  ctx.fillStyle = "#f0c36a";
+  ctx.beginPath();
+  ctx.arc(0, 0, 7, 0, Math.PI * 2);
   ctx.fill();
   ctx.restore();
 
