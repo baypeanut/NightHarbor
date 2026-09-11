@@ -56,6 +56,66 @@ Lighthouse.prototype.draw = function (ctx) {
   ctx.restore();
 };
 
+function HarborCrane(x, y) {
+  this.x = x;
+  this.y = y;
+  this.boomAngle = -0.35;
+  this.boomDirection = 1;
+  this.hookSwing = 0;
+  this.cableLength = 90;
+}
+
+HarborCrane.prototype.update = function () {
+  this.boomAngle += 0.004 * this.boomDirection;
+  if (this.boomAngle > 0.45 || this.boomAngle < -0.7) {
+    this.boomDirection *= -1;
+  }
+  this.hookSwing = Math.sin(Date.now() * 0.003) * 0.35;
+  this.cableLength = 70 + Math.sin(Date.now() * 0.0015) * 18;
+};
+
+HarborCrane.prototype.draw = function (ctx) {
+  ctx.save();
+  ctx.translate(this.x, this.y);
+
+  ctx.fillStyle = "#2a3344";
+  ctx.fillRect(-28, -12, 56, 18);
+  ctx.fillStyle = "#6d778b";
+  ctx.fillRect(-10, -70, 20, 58);
+
+  ctx.save();
+  ctx.translate(0, -70);
+  ctx.rotate(this.boomAngle);
+
+  ctx.fillStyle = "#c9a227";
+  ctx.fillRect(-8, -10, 150, 14);
+  ctx.fillStyle = "#8c7318";
+  ctx.fillRect(130, -16, 18, 26);
+
+  ctx.save();
+  ctx.translate(140, 0);
+  ctx.rotate(this.hookSwing);
+
+  ctx.strokeStyle = "#d7dce8";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(0, 0);
+  ctx.lineTo(0, this.cableLength);
+  ctx.stroke();
+
+  ctx.fillStyle = "#e85d4c";
+  ctx.beginPath();
+  ctx.moveTo(-10, this.cableLength);
+  ctx.lineTo(10, this.cableLength);
+  ctx.lineTo(0, this.cableLength + 18);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.restore();
+  ctx.restore();
+  ctx.restore();
+};
+
 function SmokePuff(x, y) {
   this.x = x;
   this.y = y;
@@ -106,13 +166,13 @@ Tugboat.prototype.update = function (width, height) {
     this.heading = Math.PI;
   }
   this.y = height * 0.68 + Math.sin(this.pathT * 2.2) * 8;
-  this.wheelAngle += 0.22;
+  this.wheelAngle += 0.18;
   this.flagPhase += 0.12;
 
   this.smokeTimer -= 1;
   if (this.smokeTimer <= 0) {
     this.smoke.push(new SmokePuff(0, -48));
-    this.smokeTimer = 7;
+    this.smokeTimer = 8;
   }
   for (var i = this.smoke.length - 1; i >= 0; i--) {
     this.smoke[i].update();
