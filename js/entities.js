@@ -106,7 +106,7 @@ Tugboat.prototype.update = function (width, height) {
     this.heading = Math.PI;
   }
   this.y = height * 0.68 + Math.sin(this.pathT * 2.2) * 8;
-  this.wheelAngle += 0.18;
+  this.wheelAngle += 0.22;
   this.flagPhase += 0.12;
 
   this.smokeTimer -= 1;
