@@ -70,7 +70,7 @@ HarborCrane.prototype.update = function () {
   if (this.boomAngle > 0.45 || this.boomAngle < -0.7) {
     this.boomDirection *= -1;
   }
-  this.hookSwing = Math.sin(Date.now() * 0.003) * 0.35;
+  this.hookSwing = Math.sin(Date.now() * 0.0035) * 0.35;
   this.cableLength = 70 + Math.sin(Date.now() * 0.0015) * 18;
 };
 
