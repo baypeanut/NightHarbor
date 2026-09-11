@@ -112,7 +112,7 @@ Tugboat.prototype.update = function (width, height) {
   this.smokeTimer -= 1;
   if (this.smokeTimer <= 0) {
     this.smoke.push(new SmokePuff(0, -48));
-    this.smokeTimer = 8;
+    this.smokeTimer = 7;
   }
   for (var i = this.smoke.length - 1; i >= 0; i--) {
     this.smoke[i].update();
